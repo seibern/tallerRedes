@@ -12,13 +12,15 @@ def saludo():
 @app.route('/todo/api/v1.0/vms')
 def listaVms():
   output = subprocess.check_output(['vboxmanage', 'list' , 'vms'])
-  return jsonify({'VM':output})
+  resultado = output.splitlines()
+  return jsonify({'VM':resultado})
 
 #b--Ver la lista de maquinas en ejecucion en el host
 @app.route('/todo/api/v1.0/runVms')
 def vmsRun():
   output = subprocess.check_output(['VBoxManage', 'list', 'runningvms'])
-  return jsonify({'VM en ejecucion':output})
+  resultado = output.splitlines()
+  return jsonify({'VM en ejecucion':resultado})
 
 #Dada una maquina virtual
 
@@ -33,13 +35,15 @@ def info(Vmachine):
 @app.route('/vm/RAM/<string:Vmachine>')
 def vmsRam(Vmachine):
   output = subprocess.check_output('vboxmanage showvminfo %s | grep "Memory"'% (Vmachine), shell=True)
-  return jsonify({'RAM':output})
+  resultado = output.splitlines()
+  return jsonify({'RAM':resultado})
 
 #e--Ver el numero de procesadores asignados a la maquina virtual
 @app.route('/vm/CPUs/<string:Vmachine>')
 def vmsCPU(Vmachine):
   output = subprocess.check_output('vboxmanage showvminfo %s | grep "CPU"'% (Vmachine), shell=True)
-  return jsonify({'procesador':output})
+  resultado = output.splitlines()
+  return jsonify({'procesador':resultado})
 
 #f--Brindar el numero de tarjetas de red conectadas a una maquina virtual
 @app.route('/vm/NIC/<string:Vmachine>')
